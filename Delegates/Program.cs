@@ -12,7 +12,7 @@ namespace Delegates
             var operation = PromptForOperation("Please enter operation", "+-*/");
             var rightSide = PromptForAnInteger("Please enter your second number");
             var calculation = WorkOutTheDelegate(operation);
-            Console.WriteLine($"The result is {calculation(leftSide, rightSide)}");
+            Console.WriteLine($"The result of {leftSide} {operation} {rightSide} is {calculation(leftSide, rightSide)}");
             Console.ReadKey();
         }
 
@@ -35,7 +35,7 @@ namespace Delegates
             {
                 Console.WriteLine(prompt + ", one of (" + input + ")");
                 operation = Console.ReadLine();
-            } while (operation.Length != 1 && input.IndexOf(operation) == -1);
+            } while (operation.Length != 1 || input.IndexOf(operation) == -1);
             return operation.ToCharArray()[0];
         }
 
