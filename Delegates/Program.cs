@@ -11,12 +11,12 @@ namespace Delegates
             var leftSide = PromptForAnInteger("Please enter your first number");
             var operation = PromptForOperation("Please enter operation", "+-*/");
             var rightSide = PromptForAnInteger("Please enter your second number");
-            var calculation = WorkOutTheDelegate(operation);
+            var calculation = CharOperationToDelegateCalculation(operation);
             Console.WriteLine($"The result of {leftSide} {operation} {rightSide} is {calculation(leftSide, rightSide)}");
             Console.ReadKey();
         }
 
-        private static Calculation WorkOutTheDelegate(char operation)
+        private static Calculation CharOperationToDelegateCalculation(char operation)
         {
             switch (operation)
             {
