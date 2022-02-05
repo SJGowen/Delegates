@@ -61,6 +61,11 @@ namespace Delegates
 
         private static decimal Multiplication(int leftSide, int rightSide) => leftSide * rightSide;
 
-        private static decimal Division(int leftSide, int rightSide) => decimal.Divide(leftSide, rightSide);
+        private static decimal Division(int leftSide, int rightSide)
+        {
+            if (rightSide == 0)
+                return 0;
+            return decimal.Divide(leftSide, rightSide);
+        }
     }
 }
