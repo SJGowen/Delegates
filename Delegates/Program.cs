@@ -7,8 +7,13 @@ namespace Delegates
         static void Main(string[] args)
         {
             var leftSide = PromptForAnInteger("Please enter your first number:");
-            var operation = PromptForOperation("Please enter operation:", "+-*/");
+            var operation = PromptForOperation("Please enter operation", "+-*/");
             var rightSide = PromptForAnInteger("Please enter your second number:");
+            while (operation == '/' && rightSide == 0)
+            {
+                Console.WriteLine($"You can not divide by zero. Please try again!");
+                rightSide = PromptForAnInteger("Please enter your second number:");
+            }
 
             Console.WriteLine(PerformOperation(leftSide, operation, rightSide));
         }
@@ -17,9 +22,9 @@ namespace Delegates
         {
             var calculation = OperationToCalculation(operation);
             var result = calculation(leftSide, rightSide);
-            return result % 1 > 0
-                ? $"{leftSide} {operation} {rightSide} = {result:N3}"
-                : $"{leftSide} {operation} {rightSide} = {result:N0}";
+            return result % 1 == 0
+                ? $"{leftSide} {operation} {rightSide} = {result:N0}"
+                : $"{leftSide} {operation} {rightSide} = {result:N3}";
         }
 
         private static Func<int, int, decimal> OperationToCalculation(char operation)
@@ -40,9 +45,10 @@ namespace Delegates
             var displayedInput = SeparateWithCommas(input);
             do
             {
-                Console.WriteLine($"{prompt}, one of ({displayedInput}).");
+                Console.WriteLine($"{prompt}, one of ({displayedInput}):");
                 operation = Console.ReadLine();
             } while (!CheckForValidOperation(operation));
+
             return operation[0];
 
             static string SeparateWithCommas(string input)
@@ -58,7 +64,7 @@ namespace Delegates
             bool CheckForValidOperation(string operation)
             {
                 var result = operation.Length != 1 || input.IndexOf(operation) == -1;
-                if (result) Console.WriteLine($"Your input of '{operation}' is not one of ({displayedInput}). Please try again.");
+                if (result) Console.WriteLine($"Your input of '{operation}' is not one of ({displayedInput}). Please try again!");
                 return !result;
             }
         }
@@ -71,6 +77,7 @@ namespace Delegates
                 Console.WriteLine(prompt);
                 numberString = Console.ReadLine();
             } while (!CheckForValidInteger(numberString));
+
             return int.Parse(numberString);
 
             static bool CheckForValidInteger(string numberString)
@@ -81,7 +88,7 @@ namespace Delegates
                 }
                 else
                 {
-                    Console.WriteLine($"Your input of '{numberString}' is not an integer. Please try again.");
+                    Console.WriteLine($"Your input of '{numberString}' is not an integer. Please try again!");
                     return false;
                 }
             }
@@ -93,11 +100,6 @@ namespace Delegates
 
         private static decimal Multiplication(int leftSide, int rightSide) => leftSide * rightSide;
 
-        private static decimal Division(int leftSide, int rightSide)
-        {
-            if (rightSide == 0)
-                return 0;
-            return decimal.Divide(leftSide, rightSide);
-        }
+        private static decimal Division(int leftSide, int rightSide) => decimal.Divide(leftSide, rightSide);
     }
 }
