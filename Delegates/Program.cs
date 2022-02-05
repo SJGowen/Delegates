@@ -7,7 +7,7 @@ namespace Delegates
         static void Main(string[] args)
         {
             var leftSide = PromptForAnInteger("Please enter your first number:");
-            var operation = PromptForOperation("Please enter operation", "+-*/");
+            var operation = PromptForOperation("Please enter operation", "+-*/%");
             var rightSide = PromptForAnInteger("Please enter your second number:");
             while (operation == '/' && rightSide == 0)
             {
@@ -33,6 +33,7 @@ namespace Delegates
                 case '-': return Subtraction;
                 case '*': return Multiplication;
                 case '/': return Division;
+                case '%': return Modulus;
                 default: throw new InvalidOperationException($"Operation '{operation}' is not defined.");
             }
         }
@@ -89,5 +90,7 @@ namespace Delegates
         private static decimal Multiplication(int leftSide, int rightSide) => leftSide * rightSide;
 
         private static decimal Division(int leftSide, int rightSide) => decimal.Divide(leftSide, rightSide);
+
+        private static decimal Modulus(int leftSide, int rightSide) => leftSide % rightSide;
     }
 }
