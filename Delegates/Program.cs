@@ -40,7 +40,7 @@ namespace Delegates
         private static char PromptForOperation(string prompt, string input)
         {
             string operation;
-            var displayedInput = SeparateWithCommas(input);
+            var displayedInput = $"'{string.Join("','", input.ToCharArray())}'";
             do
             {
                 Console.WriteLine($"{prompt}, one of ({displayedInput}):");
@@ -55,16 +55,6 @@ namespace Delegates
                 if (result) Console.WriteLine($"Your input of '{operation}' is not one of ({displayedInput}). Please try again!");
                 return !result;
             }
-        }
-
-        private static string SeparateWithCommas(string input)
-        {
-            var output = "";
-            foreach (char c in input)
-            {
-                output += $"{c},";
-            }
-            return output[0..^1];
         }
 
         private static int PromptForAnInteger(string prompt)
