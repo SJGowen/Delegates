@@ -49,22 +49,22 @@ namespace Delegates
 
             return operation[0];
 
-            static string SeparateWithCommas(string input)
-            {
-                var output = "";
-                foreach (char c in input)
-                {
-                    output += $"{c},";
-                }
-                return output[0..^1];
-            }
-
             bool CheckForValidOperation(string operation)
             {
                 var result = operation.Length != 1 || input.IndexOf(operation) == -1;
                 if (result) Console.WriteLine($"Your input of '{operation}' is not one of ({displayedInput}). Please try again!");
                 return !result;
             }
+        }
+
+        private static string SeparateWithCommas(string input)
+        {
+            var output = "";
+            foreach (char c in input)
+            {
+                output += $"{c},";
+            }
+            return output[0..^1];
         }
 
         private static int PromptForAnInteger(string prompt)
