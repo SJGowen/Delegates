@@ -22,9 +22,7 @@ namespace Delegates
         {
             var calculation = OperationToCalculation(operation);
             var result = calculation(leftSide, rightSide);
-            return result % 1 == 0
-                ? $"{leftSide} {operation} {rightSide} = {result:N0}"
-                : $"{leftSide} {operation} {rightSide} = {result:N3}";
+            return $"{leftSide} {operation} {rightSide} = {result:0.###}";
         }
 
         private static Func<int, int, decimal> OperationToCalculation(char operation)
