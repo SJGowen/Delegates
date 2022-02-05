@@ -4,19 +4,25 @@ namespace Delegates
 {
     class Program
     {
-        public delegate int Calculation(int leftSide, int rightSide);
-
         static void Main(string[] args)
         {
             var leftSide = PromptForAnInteger("Please enter your first number");
             var operation = PromptForOperation("Please enter operation", "+-*/");
             var rightSide = PromptForAnInteger("Please enter your second number");
-            var calculation = CharOperationToDelegateCalculation(operation);
-            Console.WriteLine($"The result of {leftSide} {operation} {rightSide} is {calculation(leftSide, rightSide)}");
-            Console.ReadKey();
+
+            Console.WriteLine(PerformOperation(leftSide, operation, rightSide));
         }
 
-        private static Calculation CharOperationToDelegateCalculation(char operation)
+        private static string PerformOperation(int leftSide, char operation, int rightSide)
+        {
+            var calculation = OperationToCalculation(operation);
+            var result = calculation(leftSide, rightSide);
+            return result % 1 > 0
+                ? $"The result of {leftSide} {operation} {rightSide} is {result:N3}"
+                : $"The result of {leftSide} {operation} {rightSide} is {result:N0}";
+        }
+
+        private static Func<int, int, decimal> OperationToCalculation(char operation)
         {
             switch (operation)
             {
@@ -24,7 +30,7 @@ namespace Delegates
                 case '-': return Subtraction;
                 case '*': return Multiplication;
                 case '/': return Division;
-                default: throw new System.InvalidOperationException($"Operation '{operation}' is not defined");
+                default: throw new InvalidOperationException($"Operation '{operation}' is not defined");
             }
         }
 
@@ -33,10 +39,10 @@ namespace Delegates
             string operation;
             do
             {
-                Console.WriteLine(prompt + ", one of (" + input + ")");
+                Console.WriteLine($"{prompt}, one of ({input})");
                 operation = Console.ReadLine();
             } while (operation.Length != 1 || input.IndexOf(operation) == -1);
-            return operation.ToCharArray()[0];
+            return operation[0];
         }
 
         private static int PromptForAnInteger(string prompt)
@@ -49,24 +55,12 @@ namespace Delegates
             return number;
         }
 
-        private static int Addition(int leftSide, int rightSide)
-        {
-            return leftSide + rightSide;
-        }
+        private static decimal Addition(int leftSide, int rightSide) => leftSide + rightSide;
 
-        private static int Subtraction(int leftSide, int rightSide)
-        {
-            return leftSide - rightSide;
-        }
+        private static decimal Subtraction(int leftSide, int rightSide) => leftSide - rightSide;
 
-        private static int Multiplication(int leftSide, int rightSide)
-        {
-            return leftSide * rightSide;
-        }
+        private static decimal Multiplication(int leftSide, int rightSide) => leftSide * rightSide;
 
-        private static int Division(int leftSide, int rightSide)
-        {
-            return leftSide / rightSide;
-        }
+        private static decimal Division(int leftSide, int rightSide) => decimal.Divide(leftSide, rightSide);
     }
 }
